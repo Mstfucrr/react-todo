@@ -1,10 +1,19 @@
-import plus from '../assets/plus.svg';
-import Task from '../model/Task';
+import Task from '@/model/Task';
+import { PlusCircleIcon } from '@heroicons/react/24/solid';
 
 export const TaskInput = ({ setTasks, tasks }: {
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>
   , tasks: Task[]
 }) => {
+
+  const parseDate = (dateString: string) => {
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('.');
+    const [hours, minutes, seconds] = timePart.split(':');
+
+    return new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
+  };
+
 
   async function addTask() {
     const input = document.querySelector("input");
@@ -12,8 +21,8 @@ export const TaskInput = ({ setTasks, tasks }: {
       const newTask = input.value;
       if (newTask) {
         const newTask = new Task(
-          tasks.length + 1,input.value, false , new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
-
+          Math.floor(Math.random() * 1000)
+          , input.value, false, parseDate(new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' }))
         )
         setTasks([...tasks, newTask])
         localStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
@@ -36,7 +45,7 @@ export const TaskInput = ({ setTasks, tasks }: {
 
 
       >
-        Ekle <img src={plus} alt="ekle" />
+        Ekle <PlusCircleIcon className="w-[24px] h-[24px]" />
       </button>
     </div>
   )
