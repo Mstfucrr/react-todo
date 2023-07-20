@@ -1,5 +1,6 @@
+import Task from "../model/Task"
 
-export const TaskHeader = () => {
+export const TaskHeader = ( {tasks} : {tasks: Task[]}) => {
   return (
     <div className="flex justify-between items-end self-stretch">
     {/* created */}
@@ -9,7 +10,7 @@ export const TaskHeader = () => {
       </div>
       <div className="flex py-[2px] px-[8px] flex-col justify-center items-center gap-[10px] rounded-full bg-gray-400">
         <div className="text-gray-200 font-bold leading-normal text-[12px]">
-          5
+          {tasks.length}
         </div>
       </div>
     </div>
@@ -20,7 +21,7 @@ export const TaskHeader = () => {
       </div>
       <div className="flex py-[2px] px-[8px] flex-col justify-center items-center gap-[10px] rounded-full bg-gray-400">
         <div className="text-gray-200 font-bold leading-normal text-[12px]">
-          2 / 5
+          {tasks.filter(t => t.status).length} / {tasks.length}
         </div>
       </div>
     </div>
