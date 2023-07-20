@@ -4,7 +4,7 @@ class Task {
         public id: number,
         public title: string,
         public status: boolean,
-        public createdAt: string,
+        public createdAt: Date,
     ) { }
 
 
