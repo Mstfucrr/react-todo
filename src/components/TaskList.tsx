@@ -8,7 +8,7 @@ export const TaskList = ({ setTasks, tasks }: {
 }) => {
   
   return (
-    <ul className="flex flex-col items-center gap-[12px] self-stretch">
+    <ul className="flex flex-col items-center gap-[12px] self-stretch max-h-[500px] overflow-y-auto overflow-x-hidden">
       <AnimatePresence>
         {tasks.map((task) => (
           <TaskItem key={task.id} setTasks={setTasks} task={task} tasks={tasks} />
