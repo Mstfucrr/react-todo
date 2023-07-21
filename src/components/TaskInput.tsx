@@ -33,7 +33,7 @@ export const TaskInput = ({ setTasks, tasks }: {
 
 
   return (
-    <div className="flex w-[736px] items-center gap-[8px] relative -top-5 mx-auto">
+    <div className="flex w-full md:w-[736px] items-center gap-[8px] relative -top-5 mx-auto">
       <input type="text" className="rounded-[8px] border border-solid border-gray-700 bg-gray-500 p-[16px] flex-1 gap-[8px] items-center
         focus:border-purple-dark focus:text-gray-100 focus-visible:outline-none
       " placeholder="Yeni görev" />

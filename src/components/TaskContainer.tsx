@@ -8,7 +8,7 @@ export const TaskContainer = ({ setTasks, tasks }: {
 }) => {
 
   return (
-    <div className="flex w-[736px] flex-col items-start gap-[24px] mx-auto mt-[64px]">
+    <div className="flex w-full md:w-[736px] flex-col items-start gap-[24px] mx-auto mt-[64px]">
       <TaskHeader tasks={tasks} />
       <TaskList setTasks={setTasks} tasks={tasks} />
     </div>
