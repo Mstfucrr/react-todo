@@ -1,5 +1,6 @@
 import { CheckIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import Task from '../model/Task';
 
 
@@ -8,6 +9,11 @@ export const TaskItem = ({ setTasks, task, tasks }: {
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>
   , task: Task, tasks: Task[]
 }) => {
+
+  const [day, setDay] = useState<number>(0);
+  const [hour, setHour] = useState<number>(0);
+  const [minute, setMinute] = useState<number>(0);
+
 
   function toggleTask() {
     const newTasks = [...tasks];
@@ -24,6 +30,19 @@ export const TaskItem = ({ setTasks, task, tasks }: {
     setTasks(newTasks);
     localStorage.setItem("tasks", JSON.stringify(newTasks));
   }
+
+  useEffect(() => {
+    const date = new Date(task.createdAt);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const day = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hour = Math.floor(diff / (1000 * 60 * 60));
+    const minute = Math.floor(diff / (1000 * 60));
+    setDay(day);
+    setHour(hour);
+    setMinute(minute);
+  }, [task.createdAt]);
+
 
 
 
@@ -76,12 +95,7 @@ export const TaskItem = ({ setTasks, task, tasks }: {
 
             </div>
             <div className="text-gray-300 font-normal text-[12px] leading-[140%] flex">
-              {Math.floor((new Date().getTime() - new Date(task.createdAt).getTime()) / (1000 * 3600 * 24)) + " "} gün &nbsp;
-              {/* saat önce */}
-              {Math.floor((new Date().getTime() - new Date(task.createdAt).getTime()) / (1000 * 3600)) + " "} saat &nbsp;
-              {/* dakika önce */}
-              {Math.floor((new Date().getTime() - new Date(task.createdAt).getTime()) / (1000 * 60)) + " "} dakika önce
-
+              {day > 0 ? day + " gün önce" : hour > 0 ? hour + " saat önce" : minute > 0 ? minute + " dakika önce" : "az önce"}
             </div>
 
           </div>
