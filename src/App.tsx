@@ -1,31 +1,33 @@
 import { Header } from "./components/Header";
 import { TaskInput } from "./components/TaskInput";
 import { TaskContainer } from "./components/TaskContainer";
-import { useEffect, useState } from "react";
-import Task  from "./model/Task";
+import { Provider } from "react-redux";
+import { setTasks } from "@/redux/actions";
+import store from "./redux/store";
+import { useEffect } from "react";
+import Task from "./model/Task";
 
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
 
-  // setTasks çalıştığında tasks'ı localStorage'a kaydet
-  
   useEffect(() => {
-    const jsTasks = localStorage.getItem("tasks");
-    if (jsTasks) {
-      const storedTasks = JSON.parse(jsTasks) as Task[];
-      if (storedTasks) {
-        setTasks(storedTasks);
-      }
+    // Load data from localStorage and initialize the Redux store with it
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {  
+      store.dispatch(setTasks(JSON.parse(storedTasks) as Task[]) as any);
     }
+
   }, []);
 
+
   return (
-    <div className="app">
-      <Header />
-      <TaskInput setTasks={setTasks} tasks={tasks} />
-      <TaskContainer setTasks={setTasks} tasks={tasks} />
-    </div>
+    <Provider store={store}>
+      <div className="app">
+        <Header />
+        <TaskInput />
+        <TaskContainer />
+      </div>
+    </Provider>
   )
 }
 

@@ -1,35 +1,30 @@
 import { CheckIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Task from '../model/Task';
+import {toggleTask,deleteTask} from '@/redux/actions';
 
 
 
-export const TaskItem = ({ setTasks, task, tasks }: {
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-  , task: Task, tasks: Task[]
-}) => {
+export const TaskItem: React.FC<{ task: Task }> = ({ task }) => {
 
   const [day, setDay] = useState<number>(0);
   const [hour, setHour] = useState<number>(0);
   const [minute, setMinute] = useState<number>(0);
 
+  const tasks = useSelector((state: any) => state.tasks);
 
-  function toggleTask() {
-    const newTasks = [...tasks];
-    const taskIndex = newTasks.findIndex(t => t.id === task.id);
-    newTasks[taskIndex].status = !newTasks[taskIndex].status;
-    setTasks(newTasks);
-    localStorage.setItem("tasks", JSON.stringify(newTasks));
-  }
+  const dispatch = useDispatch();
 
-  function deleteTask() {
-    const newTasks = [...tasks];
-    const taskIndex = newTasks.findIndex(t => t.id === task.id);
-    newTasks.splice(taskIndex, 1);
-    setTasks(newTasks);
-    localStorage.setItem("tasks", JSON.stringify(newTasks));
-  }
+  const handleToggle = () => {
+    dispatch(toggleTask(task.id) as any);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteTask(task.id) as any);
+  };
+  
 
   useEffect(() => {
     const date = new Date(task.createdAt);
@@ -61,7 +56,7 @@ export const TaskItem = ({ setTasks, task, tasks }: {
               task.status ?
                 <>
                   <button className="w-[20px] h-[20px] rounded-full bg-purple-dark cursor-pointer hover:bg-purple"
-                    onClick={toggleTask}>
+                    onClick={handleToggle}>
                     <CheckIcon className="text-white w-4 mx-auto" />
                   </button>
                   <motion.div className="text-gray-300 font-normal text-[14px] leading-[140%] line-through flex-1">
@@ -71,7 +66,7 @@ export const TaskItem = ({ setTasks, task, tasks }: {
                 :
                 <>
                   <button className="w-[20px] h-[20px] rounded-full border-2 border-solid border-blue cursor-pointer hover:border-blue-dark"
-                    onClick={toggleTask}></button>
+                    onClick={handleToggle}></button>
 
                   <motion.div className="text-gray-100 font-normal text-[14px] leading-[140%] flex-1">
                     {task.title}
@@ -81,7 +76,7 @@ export const TaskItem = ({ setTasks, task, tasks }: {
 
             {/* delete */}
             <button className="cursor-pointer hover:bg-gray-400 text-center rounded-md "
-              onClick={deleteTask}
+              onClick={handleDelete}
             >
               <TrashIcon className="text-gray-300 hover:text-danger w-[30px] p-[7px] align-middle" />
             </button>

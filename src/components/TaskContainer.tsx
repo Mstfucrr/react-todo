@@ -1,16 +1,16 @@
-import Task from "../model/Task";
+import { useSelector } from "react-redux";
 import { TaskHeader } from "./TaskHeader"
 import { TaskList } from "./TaskList"
 
-export const TaskContainer = ({ setTasks, tasks }: {
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-  , tasks: Task[]
-}) => {
+export const TaskContainer: React.FC = () => {
+
+  const tasks = useSelector((state: any) => state.tasks);
+
 
   return (
     <div className="flex w-full md:w-[736px] flex-col items-start gap-[24px] mx-auto mt-[64px]">
       <TaskHeader tasks={tasks} />
-      <TaskList setTasks={setTasks} tasks={tasks} />
+      <TaskList />
     </div>
   )
 }
